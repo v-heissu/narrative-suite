@@ -32,13 +32,13 @@
 		return 'bg-red-500';
 	}
 
-	function typeLeftBorder(type: string): string {
+	function typeLeftBorderColor(type: string): string {
 		switch (type) {
-			case 'opportunity': return 'from-blue-400 to-blue-600';
-			case 'risk': return 'from-red-400 to-red-600';
-			case 'trend': return 'from-violet-400 to-violet-600';
-			case 'gap': return 'from-amber-400 to-amber-600';
-			default: return 'from-gray-400 to-gray-600';
+			case 'opportunity': return 'border-l-blue-500';
+			case 'risk': return 'border-l-red-500';
+			case 'trend': return 'border-l-violet-500';
+			case 'gap': return 'border-l-amber-500';
+			default: return 'border-l-gray-500';
 		}
 	}
 
@@ -189,13 +189,13 @@
 </script>
 
 <div class="space-y-8 max-w-7xl mx-auto">
-	<div class="animate-fade-in-up" style="opacity: 0;">
+	<div>
 		<h2 class="text-2xl font-bold text-gray-900">Insight & Opportunita</h2>
 		<p class="text-sm text-gray-500 mt-1">Mappa strategica, correlazioni e analisi azionabili</p>
 	</div>
 
 	<!-- MAPPA STRATEGICA (Zona Calda) -->
-	<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-fade-in-up delay-100" style="opacity: 0;">
+	<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
 		<div class="flex items-center gap-3 mb-6">
 			<h3 class="text-lg font-semibold text-gray-900">Mappa Strategica</h3>
 			<div class="flex items-center gap-3 ml-auto text-[10px]">
@@ -241,7 +241,7 @@
 			<div class="absolute top-1/2 left-[-20px] -translate-y-1/2 -rotate-90 text-[10px] text-gray-400 font-medium whitespace-nowrap">Urgenza di Azione &rarr;</div>
 
 			<!-- Bubbles -->
-			{#each bubbles as bubble, idx}
+			{#each bubbles as bubble}
 				<div
 					role="button"
 					tabindex="0"
@@ -251,14 +251,12 @@
 					onmouseleave={() => hoveredBubble = null}
 				>
 					<div
-						class="rounded-full flex items-center justify-center animate-fade-in-up"
+						class="rounded-full flex items-center justify-center"
 						style="
 							width: {bubble.size * 2}px;
 							height: {bubble.size * 2}px;
 							background: {bubbleBg(bubble.type)};
 							border: 2px solid {bubbleColor(bubble.type)};
-							opacity: 0;
-							animation-delay: {300 + idx * 80}ms;
 						"
 					>
 						<span class="text-[8px] font-semibold text-center leading-tight px-1 select-none" style="color: {bubbleColor(bubble.type)};">
@@ -282,15 +280,12 @@
 	</div>
 
 	<!-- CORRELAZIONI CROSS-DIMENSIONALI -->
-	<div class="animate-fade-in-up delay-300" style="opacity: 0;">
+	<div>
 		<h3 class="text-lg font-semibold text-gray-900 mb-4">Correlazioni Cross-Dimensionali</h3>
 		<div class="space-y-4">
-			{#each strategicSignals as signal, idx}
-				<div class="relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 card-hover animate-fade-in-up" style="opacity: 0; animation-delay: {400 + idx * 100}ms;">
-					<!-- Left accent -->
-					<div class="absolute top-0 left-0 bottom-0 w-1 rounded-l-xl bg-gradient-to-b from-blue-500 to-violet-500"></div>
-
-					<div class="pl-3">
+			{#each strategicSignals as signal}
+				<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 border-l-2 border-l-blue-500">
+					<div>
 						<div class="flex items-start justify-between gap-4">
 							<div class="flex-1">
 								<!-- Type badge -->
@@ -329,17 +324,14 @@
 	</div>
 
 	<!-- INSIGHT CARDS (existing, improved) -->
-	<div class="animate-fade-in-up delay-500" style="opacity: 0;">
+	<div>
 		<h3 class="text-lg font-semibold text-gray-900 mb-4">Insight Dettagliati</h3>
 		<div class="space-y-3">
 			{#each sortedInsights as insight, idx}
 				{@const tBadge = typeBadge(insight.type)}
 				{@const sBadge = statusBadge(insight.status)}
 				{@const correlation = getCorrelation(insight)}
-				<div class="relative bg-white rounded-xl shadow-sm border border-gray-100 card-hover overflow-hidden">
-					<!-- Type-colored left border -->
-					<div class="absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b {typeLeftBorder(insight.type)}"></div>
-
+				<div class="bg-white rounded-xl shadow-sm border border-gray-100 border-l-2 {typeLeftBorderColor(insight.type)} overflow-hidden">
 					<div class="p-5 pl-6">
 						<div class="flex items-start justify-between gap-4">
 							<div class="flex-1 min-w-0">
@@ -378,7 +370,7 @@
 								<span class="text-2xl font-bold text-gray-900">{insight.score.toFixed(1)}</span>
 								<div class="mt-1.5 h-1.5 bg-gray-100 rounded-full overflow-hidden">
 									<div
-										class="h-full rounded-full {scoreBarColor(insight.score)} animate-expand-width"
+										class="h-full rounded-full {scoreBarColor(insight.score)}"
 										style="width: {(insight.score / 10) * 100}%"
 									></div>
 								</div>

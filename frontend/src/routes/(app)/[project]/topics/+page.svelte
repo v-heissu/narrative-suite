@@ -443,7 +443,6 @@
 	function selectTopic(topic: TopicData) {
 		selectedTopic = topic;
 		activeTab = 0;
-		// Scroll to drilldown
 		setTimeout(() => {
 			document.getElementById('topic-drilldown')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		}, 100);
@@ -525,18 +524,17 @@
 </script>
 
 <div class="space-y-6 max-w-7xl mx-auto">
-	<div class="animate-fade-in-up" style="opacity: 0;">
+	<div>
 		<h2 class="text-2xl font-bold text-gray-900">Topic Explorer</h2>
 		<p class="text-sm text-gray-500 mt-1">Esplora i topic monitorati e analizza il posizionamento su ogni canale</p>
 	</div>
 
 	<!-- Topic Grid -->
-	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 animate-fade-in-up delay-100" style="opacity: 0;">
-		{#each topics as topic, idx}
+	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+		{#each topics as topic}
 			<button
 				onclick={() => selectTopic(topic)}
-				class="relative text-left p-4 rounded-xl border bg-white shadow-sm card-hover transition-all duration-200 {selectedTopic?.name === topic.name ? 'ring-2 ring-blue-500 border-blue-200' : sentimentBorder(topic.sentiment)} {topic.mentions > 35 ? 'lg:col-span-1' : ''}"
-				style="animation: fadeInUp 0.3s ease-out forwards; animation-delay: {idx * 50}ms; opacity: 0;"
+				class="relative text-left p-4 rounded-xl border bg-white shadow-sm transition-colors hover:border-gray-300 {selectedTopic?.name === topic.name ? 'ring-2 ring-blue-500 border-blue-200' : sentimentBorder(topic.sentiment)} {topic.mentions > 35 ? 'lg:col-span-1' : ''}"
 			>
 				{#if topic.isNew}
 					<span class="absolute top-2 right-2 px-1.5 py-0.5 text-[8px] font-bold uppercase bg-violet-100 text-violet-600 rounded-full">NEW</span>
@@ -561,10 +559,10 @@
 
 	<!-- Drilldown Section -->
 	{#if selectedTopic}
-		<div id="topic-drilldown" class="animate-fade-in-up" style="opacity: 0;">
+		<div id="topic-drilldown">
 			<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 				<!-- Topic Header -->
-				<div class="p-6 bg-gradient-to-r from-slate-900 to-blue-950 text-white">
+				<div class="p-6 bg-gray-900 text-white">
 					<div class="flex items-center justify-between">
 						<div>
 							<h3 class="text-xl font-bold capitalize">{selectedTopic.name}</h3>
@@ -618,7 +616,7 @@
 										<p class="text-3xl font-bold text-gray-900">{selectedTopic.overview.avgSentiment.toFixed(1)}</p>
 										<span class="text-xs text-gray-500">/ 10</span>
 									</div>
-									<!-- Simple gauge -->
+									<!-- Simple gauge — functional gradient bar (sentiment scale) -->
 									<div class="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
 										<div class="h-full rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-emerald-500" style="width: {selectedTopic.overview.avgSentiment * 10}%"></div>
 									</div>
@@ -636,7 +634,6 @@
 
 							<div>
 								<p class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-3">Trend ultime 4 settimane</p>
-								<!-- SVG mini line chart -->
 								{#if selectedTopic}
 									{@const values = selectedTopic.overview.weeklyTrend}
 									{@const max = Math.max(...values)}
@@ -647,7 +644,7 @@
 										<polyline
 											points={points}
 											fill="none"
-											stroke="url(#trendGradient)"
+											stroke="#3b82f6"
 											stroke-width="2"
 											stroke-linecap="round"
 											stroke-linejoin="round"
@@ -668,12 +665,6 @@
 												class="text-[8px] fill-gray-500"
 											>{v}</text>
 										{/each}
-										<defs>
-											<linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-												<stop offset="0%" stop-color="#3b82f6" />
-												<stop offset="100%" stop-color="#8b5cf6" />
-											</linearGradient>
-										</defs>
 									</svg>
 								{/if}
 							</div>
@@ -731,10 +722,10 @@
 										</div>
 										<span class="text-sm font-bold text-gray-700">{model.score}%</span>
 									</div>
-									<!-- Score bar -->
+									<!-- Score bar — functional progress bar -->
 									<div class="h-1.5 bg-gray-200 rounded-full overflow-hidden mb-2">
 										<div
-											class="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 animate-expand-width"
+											class="h-full rounded-full bg-blue-500"
 											style="width: {model.score}%"
 										></div>
 									</div>

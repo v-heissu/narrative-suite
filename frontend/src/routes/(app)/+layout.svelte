@@ -92,34 +92,34 @@
 
 <div class="flex h-screen overflow-hidden">
 	<!-- Sidebar -->
-	<aside class="w-64 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col shrink-0 border-r border-white/5">
-		<div class="p-6 border-b border-white/10">
+	<aside class="w-64 bg-gray-950 text-white flex flex-col shrink-0 border-r border-gray-800">
+		<div class="p-6 border-b border-gray-800">
 			<div class="flex items-center gap-3">
 				<img src="/icons/icon-512.svg" alt="Logo" class="w-8 h-8 rounded-lg" />
 				<div>
-					<h1 class="text-lg font-semibold tracking-tight text-brand-gradient">Narrative Suite</h1>
+					<h1 class="text-lg font-semibold tracking-tight text-white">Narrative Suite</h1>
 					<p class="text-[10px] text-gray-500 mt-0.5 uppercase tracking-widest">Intelligence Platform</p>
 				</div>
 			</div>
 		</div>
 
 		<nav class="flex-1 px-3 py-4 space-y-5 overflow-y-auto">
-			{#each navSections as section, sIdx}
-				<div class="animate-slide-in-left" style="animation-delay: {sIdx * 80}ms; opacity: 0;">
+			{#each navSections as section}
+				<div>
 					<div class="flex items-center gap-2 px-3 mb-2">
 						<p class="text-[10px] font-semibold uppercase tracking-widest text-gray-500">
 							{section.title}
 						</p>
-						<div class="flex-1 h-px bg-gradient-to-r from-gray-700/50 to-transparent"></div>
+						<div class="flex-1 h-px bg-gray-800"></div>
 					</div>
 					<div class="space-y-0.5">
 						{#each section.items as item}
 							<a
 								href="/{projectSlug}{item.href}"
-								class="relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200
+								class="relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm
 									{isActive(item.href)
-									? 'bg-gradient-to-r from-blue-500/10 to-transparent text-white font-medium'
-									: 'text-gray-400 hover:text-white hover:bg-white/5'}"
+									? 'bg-gray-800 text-white font-medium'
+									: 'text-gray-400 hover:text-white hover:bg-gray-800'}"
 							>
 								{#if isActive(item.href)}
 									<div class="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-blue-500 rounded-r-full"></div>
@@ -135,21 +135,11 @@
 			{/each}
 		</nav>
 
-		<!-- Tour link + Project info -->
-		<div class="p-3 border-t border-white/10 space-y-3">
-			<a
-				href="/{projectSlug}/welcome"
-				class="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-500 hover:text-gray-300 transition-colors duration-200"
-			>
-				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
-				</svg>
-				Tour Guidato
-			</a>
-
-			<div class="glass rounded-xl p-3">
+		<!-- Project info -->
+		<div class="p-3 border-t border-gray-800">
+			<div class="bg-gray-900 border border-gray-800 rounded-xl p-3">
 				<div class="flex items-center gap-3">
-					<div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-xs font-bold text-white">
+					<div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white">
 						{currentProject?.brandName?.charAt(0) ?? 'P'}
 					</div>
 					<div>
@@ -157,7 +147,6 @@
 						<p class="text-[10px] text-gray-500">{currentProject?.industry ?? ''}</p>
 					</div>
 				</div>
-				<p class="text-[10px] text-gray-600 mt-2 pl-11">Ultima scansione: 18 Mar 2026</p>
 			</div>
 		</div>
 	</aside>
@@ -165,7 +154,7 @@
 	<!-- Main -->
 	<div class="flex-1 flex flex-col overflow-hidden">
 		<!-- Top bar -->
-		<header class="h-14 bg-white/80 backdrop-blur-sm border-b border-gray-200/80 flex items-center px-6 shrink-0">
+		<header class="h-14 bg-white border-b border-gray-200 flex items-center px-6 shrink-0">
 			<nav class="flex items-center gap-2 text-sm text-gray-500">
 				<span>{currentProject?.brandName ?? 'Progetto'}</span>
 				<span class="text-gray-300">/</span>

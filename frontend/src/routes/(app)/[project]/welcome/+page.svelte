@@ -92,11 +92,13 @@
 	function goToDashboard() {
 		goto(`/${projectSlug}`);
 	}
+
+	const insightColors = ['bg-blue-600', 'bg-violet-600', 'bg-emerald-600'];
 </script>
 
 <div class="max-w-3xl mx-auto py-8">
 	<!-- Header -->
-	<div class="text-center mb-10 animate-fade-in-up" style="opacity: 0;">
+	<div class="text-center mb-10">
 		<h2 class="text-2xl font-bold text-gray-900">Benvenuto in Narrative Suite</h2>
 		<p class="text-sm text-gray-500 mt-1">Un tour rapido dei tuoi dati di intelligence narrativa</p>
 	</div>
@@ -106,7 +108,7 @@
 
 		<!-- Step 1: Il tuo ecosistema narrativo -->
 		{#if currentStep === 0}
-			<div class="animate-fade-in-up" style="opacity: 0;">
+			<div>
 				<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 					<div class="text-center mb-8">
 						<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
@@ -117,9 +119,9 @@
 					</div>
 
 					<div class="grid grid-cols-2 gap-6">
-						{#each orderedMetrics as metric, idx}
+						{#each orderedMetrics as metric}
 							{#if metric}
-								<div class="text-center p-6 rounded-xl bg-gray-50 border border-gray-100 animate-count-up" style="opacity: 0; animation-delay: {200 + idx * 150}ms;">
+								<div class="text-center p-6 rounded-xl bg-gray-50 border border-gray-100">
 									<p class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">{metric.abbr}</p>
 									<p class="text-4xl font-bold {metric.color}">{metric.format(metric.value)}</p>
 									<p class="text-xs text-gray-500 mt-3 leading-relaxed">{metric.explanation}</p>
@@ -133,7 +135,7 @@
 
 		<!-- Step 2: Cosa sta succedendo -->
 		{#if currentStep === 1}
-			<div class="animate-fade-in-up" style="opacity: 0;">
+			<div>
 				<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 					<div class="text-center mb-8">
 						<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-50 text-violet-600 border border-violet-100">
@@ -146,8 +148,8 @@
 					<!-- Highlights -->
 					<div class="space-y-3 mb-8">
 						{#each highlights as highlight, idx}
-							<div class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100 animate-slide-in-left" style="opacity: 0; animation-delay: {200 + idx * 120}ms;">
-								<div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shrink-0 mt-0.5">
+							<div class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+								<div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center shrink-0 mt-0.5">
 									<span class="text-white text-xs font-bold">{idx + 1}</span>
 								</div>
 								<p class="text-sm text-gray-700 leading-relaxed">{highlight}</p>
@@ -175,7 +177,7 @@
 
 		<!-- Step 3: Le tue priorita -->
 		{#if currentStep === 2}
-			<div class="animate-fade-in-up" style="opacity: 0;">
+			<div>
 				<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 					<div class="text-center mb-8">
 						<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
@@ -187,9 +189,8 @@
 
 					<div class="space-y-4">
 						{#each topInsights as insight, idx}
-							{@const colors = ['from-blue-500 to-blue-600', 'from-violet-500 to-violet-600', 'from-emerald-500 to-emerald-600']}
-							<div class="flex items-start gap-4 p-5 rounded-xl bg-gray-50 border border-gray-100 animate-slide-in-left" style="opacity: 0; animation-delay: {200 + idx * 120}ms;">
-								<div class="w-10 h-10 rounded-xl bg-gradient-to-br {colors[idx]} flex items-center justify-center shrink-0">
+							<div class="flex items-start gap-4 p-5 rounded-xl bg-gray-50 border border-gray-100">
+								<div class="w-10 h-10 rounded-xl {insightColors[idx]} flex items-center justify-center shrink-0">
 									<span class="text-white text-sm font-bold">{insight.score.toFixed(0)}</span>
 								</div>
 								<div class="flex-1">
@@ -213,7 +214,7 @@
 		<button
 			onclick={prevStep}
 			disabled={currentStep === 0}
-			class="px-5 py-2.5 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+			class="px-5 py-2.5 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
 		>
 			Indietro
 		</button>
@@ -223,7 +224,7 @@
 			{#each [0, 1, 2] as step}
 				<button
 					onclick={() => { direction = step > currentStep ? 'next' : 'prev'; currentStep = step; }}
-					class="w-2.5 h-2.5 rounded-full transition-all duration-300 {currentStep === step ? 'bg-gradient-to-r from-blue-500 to-violet-500 w-8' : 'bg-gray-300 hover:bg-gray-400'}"
+					class="h-2.5 rounded-full transition-all duration-300 {currentStep === step ? 'bg-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400 w-2.5'}"
 					aria-label="Vai al passo {step + 1}"
 				></button>
 			{/each}
@@ -232,7 +233,7 @@
 		{#if currentStep < 2}
 			<button
 				onclick={nextStep}
-				class="px-5 py-2.5 text-sm font-medium rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:from-blue-600 hover:to-violet-600 transition-all duration-200 shadow-sm"
+				class="px-5 py-2.5 text-sm font-medium rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm"
 			>
 				{currentStep === 0 ? 'Scopri i dettagli' : 'Cosa fare'}
 				<span class="ml-1">&rarr;</span>
@@ -240,7 +241,7 @@
 		{:else}
 			<button
 				onclick={goToDashboard}
-				class="px-5 py-2.5 text-sm font-medium rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:from-blue-600 hover:to-violet-600 transition-all duration-200 shadow-sm"
+				class="px-5 py-2.5 text-sm font-medium rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm"
 			>
 				Vai alla Dashboard &rarr;
 			</button>

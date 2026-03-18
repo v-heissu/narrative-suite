@@ -32,6 +32,7 @@
 		{
 			title: 'Understand',
 			items: [
+				{ label: 'Topic Explorer', href: '/topics', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
 				{ label: 'Monitor', href: '/monitor', icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
 				{ label: 'Visibilita AI', href: '/ai-visibility', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' },
 				{ label: 'Competitor', href: '/competitor', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
@@ -57,6 +58,7 @@
 	];
 
 	const breadcrumbMap: Record<string, string> = {
+		'/topics': 'Topic Explorer',
 		'/monitor': 'Monitor',
 		'/ai-visibility': 'Visibilita AI',
 		'/competitor': 'Competitor',
@@ -66,7 +68,8 @@
 		'/editorial': 'Piano Editoriale',
 		'/content': 'Content Brief',
 		'/editor': 'Editor',
-		'/export': 'Export'
+		'/export': 'Export',
+		'/welcome': 'Tour Guidato'
 	};
 
 	let currentPageLabel = $derived(() => {
@@ -89,27 +92,34 @@
 
 <div class="flex h-screen overflow-hidden">
 	<!-- Sidebar -->
-	<aside class="w-64 bg-gray-950 text-white flex flex-col shrink-0">
-		<div class="p-6 border-b border-gray-800">
-			<h1 class="text-lg font-semibold tracking-tight">Narrative Suite</h1>
-			<p class="text-xs text-gray-500 mt-1">Intelligence Platform</p>
+	<aside class="w-64 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col shrink-0 border-r border-white/5">
+		<div class="p-6 border-b border-white/10">
+			<h1 class="text-lg font-semibold tracking-tight text-brand-gradient">Narrative Suite</h1>
+			<p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">Intelligence Platform</p>
 		</div>
 
-		<nav class="flex-1 p-4 space-y-5 overflow-y-auto">
-			{#each navSections as section}
-				<div>
-					<p class="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-500">
-						{section.title}
-					</p>
+		<nav class="flex-1 px-3 py-4 space-y-5 overflow-y-auto">
+			{#each navSections as section, sIdx}
+				<div class="animate-slide-in-left" style="animation-delay: {sIdx * 80}ms; opacity: 0;">
+					<div class="flex items-center gap-2 px-3 mb-2">
+						<p class="text-[10px] font-semibold uppercase tracking-widest text-gray-500">
+							{section.title}
+						</p>
+						<div class="flex-1 h-px bg-gradient-to-r from-gray-700/50 to-transparent"></div>
+					</div>
 					<div class="space-y-0.5">
 						{#each section.items as item}
 							<a
 								href="/{projectSlug}{item.href}"
-								class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors {isActive(item.href)
-									? 'bg-gray-800 text-white font-medium'
-									: 'text-gray-400 hover:text-white hover:bg-gray-900'}"
+								class="relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200
+									{isActive(item.href)
+									? 'bg-gradient-to-r from-blue-500/10 to-transparent text-white font-medium'
+									: 'text-gray-400 hover:text-white hover:bg-white/5'}"
 							>
-								<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+								{#if isActive(item.href)}
+									<div class="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-blue-500 rounded-r-full"></div>
+								{/if}
+								<svg class="w-5 h-5 shrink-0 {isActive(item.href) ? 'text-blue-400' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
 									<path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
 								</svg>
 								{item.label}
@@ -120,15 +130,29 @@
 			{/each}
 		</nav>
 
-		<div class="p-4 border-t border-gray-800">
-			<div class="flex items-center gap-3 px-3 py-2">
-				<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs font-medium">
-					{currentProject?.brandName?.charAt(0) ?? 'P'}
+		<!-- Tour link + Project info -->
+		<div class="p-3 border-t border-white/10 space-y-3">
+			<a
+				href="/{projectSlug}/welcome"
+				class="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-500 hover:text-gray-300 transition-colors duration-200"
+			>
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+				</svg>
+				Tour Guidato
+			</a>
+
+			<div class="glass rounded-xl p-3">
+				<div class="flex items-center gap-3">
+					<div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-xs font-bold text-white">
+						{currentProject?.brandName?.charAt(0) ?? 'P'}
+					</div>
+					<div>
+						<p class="text-sm font-medium text-white">{currentProject?.brandName ?? 'Progetto'}</p>
+						<p class="text-[10px] text-gray-500">{currentProject?.industry ?? ''}</p>
+					</div>
 				</div>
-				<div>
-					<p class="text-sm font-medium">{currentProject?.brandName ?? 'Progetto'}</p>
-					<p class="text-xs text-gray-500">{currentProject?.industry ?? ''}</p>
-				</div>
+				<p class="text-[10px] text-gray-600 mt-2 pl-11">Ultima scansione: 18 Mar 2026</p>
 			</div>
 		</div>
 	</aside>
@@ -136,7 +160,7 @@
 	<!-- Main -->
 	<div class="flex-1 flex flex-col overflow-hidden">
 		<!-- Top bar -->
-		<header class="h-14 bg-white border-b border-gray-200 flex items-center px-6 shrink-0">
+		<header class="h-14 bg-white/80 backdrop-blur-sm border-b border-gray-200/80 flex items-center px-6 shrink-0">
 			<nav class="flex items-center gap-2 text-sm text-gray-500">
 				<span>{currentProject?.brandName ?? 'Progetto'}</span>
 				<span class="text-gray-300">/</span>

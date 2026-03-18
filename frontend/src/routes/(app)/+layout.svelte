@@ -94,8 +94,13 @@
 	<!-- Sidebar -->
 	<aside class="w-64 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col shrink-0 border-r border-white/5">
 		<div class="p-6 border-b border-white/10">
-			<h1 class="text-lg font-semibold tracking-tight text-brand-gradient">Narrative Suite</h1>
-			<p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">Intelligence Platform</p>
+			<div class="flex items-center gap-3">
+				<img src="/icons/icon-512.svg" alt="Logo" class="w-8 h-8 rounded-lg" />
+				<div>
+					<h1 class="text-lg font-semibold tracking-tight text-brand-gradient">Narrative Suite</h1>
+					<p class="text-[10px] text-gray-500 mt-0.5 uppercase tracking-widest">Intelligence Platform</p>
+				</div>
+			</div>
 		</div>
 
 		<nav class="flex-1 px-3 py-4 space-y-5 overflow-y-auto">

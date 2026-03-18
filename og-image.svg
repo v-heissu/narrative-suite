@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0F172A"/>
+  
+  <!-- Subtle grid pattern -->
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1E293B" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.4"/>
+  
+  <!-- Three bars mark — centered left -->
+  <rect x="120" y="260" width="36" height="110" rx="6" fill="white"/>
+  <rect x="172" y="200" width="36" height="170" rx="6" fill="white"/>
+  <rect x="224" y="145" width="36" height="225" rx="6" fill="white"/>
+  <circle cx="242" cy="122" r="8" fill="#60A5FA"/>
+  
+  <!-- Text -->
+  <text x="310" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="white" letter-spacing="-0.02em">Narrative Intelligence</text>
+  <text x="310" y="330" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="white" letter-spacing="-0.02em">Suite</text>
+  <text x="310" y="380" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#94A3B8" letter-spacing="0.05em">UNDERSTAND · DECIDE · CREATE</text>
+  
+  <!-- Bottom bar -->
+  <rect x="0" y="618" width="1200" height="12" fill="#60A5FA" opacity="0.6"/>
+</svg>

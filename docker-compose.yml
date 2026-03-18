@@ -27,7 +27,7 @@ services:
     ports:
       - "5080:5080"
     environment:
-      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=${MYSQL_DATABASE:-narrative_suite};User=${MYSQL_USER:-narrative};Password=${MYSQL_PASSWORD:-narrative_pass};"
+      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=${MYSQL_DATABASE:-narrative_suite};User=${MYSQL_USER:-narrative};Password=${MYSQL_PASSWORD:-narrative_pass};OldGuids=true;"
       Jwt__Key: ${JWT_SECRET:-dev-secret-change-me-minimum-32-chars!!}
       Jwt__Issuer: ${JWT_ISSUER:-NarrativeSuite}
       Jwt__Audience: ${JWT_AUDIENCE:-NarrativeSuite}

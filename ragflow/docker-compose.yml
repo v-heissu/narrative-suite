@@ -1,0 +1,20 @@
+# RAGFlow — managed separately from the main stack
+# Start: docker compose -f ragflow/docker-compose.yml up -d
+# Stop:  docker compose -f ragflow/docker-compose.yml down
+
+services:
+  ragflow:
+    image: infiniflow/ragflow:latest
+    container_name: narrative-ragflow
+    restart: unless-stopped
+    ports:
+      - "9380:9380"
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ragflow_data:/ragflow/data
+    environment:
+      RAGFLOW_API_KEY: ${RAGFLOW_API_KEY:-}
+
+volumes:
+  ragflow_data:

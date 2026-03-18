@@ -1,0 +1,35 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.DotSettings.user
+
+# Node / Bun
+node_modules/
+.svelte-kit/
+build/
+dist/
+.env.local
+.env.*.local
+# bun.lock is tracked (not ignored)
+
+# Docker
+.env
+
+# IDE
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

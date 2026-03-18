@@ -1,0 +1,55 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: narrative-db
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-narrative_root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-narrative_suite}
+      MYSQL_USER: ${MYSQL_USER:-narrative}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-narrative_pass}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: narrative-backend
+    restart: unless-stopped
+    ports:
+      - "5080:5080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=${MYSQL_DATABASE:-narrative_suite};User=${MYSQL_USER:-narrative};Password=${MYSQL_PASSWORD:-narrative_pass};"
+      Jwt__Key: ${JWT_SECRET:-dev-secret-change-me-minimum-32-chars!!}
+      Jwt__Issuer: ${JWT_ISSUER:-NarrativeSuite}
+      Jwt__Audience: ${JWT_AUDIENCE:-NarrativeSuite}
+      Cors__Origins: ${CORS_ORIGINS:-http://localhost:5173}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: narrative-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:3000"
+    environment:
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://backend:5080}
+      ORIGIN: ${ORIGIN:-http://localhost:5173}
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
